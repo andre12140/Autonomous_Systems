@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Map file path, without extensions -->
+  <!-- Use $(rospack find PACKAGE) -->
+  <arg name="rosbag_file" default="$(find occupancy_grid_mapping)/data/first_bag.bag"/>
+  
+  <!-- Disable if running online and not from a bag -->
+  <param name="use_sim_time" value="true"/>
+
+  <!-- NODES -->
+  <!-- Adding the my_map tf to the tf tree-->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="my_map_to_map" args="0 0 0 0 0 0 1 /my_map /map "/>
+  <!-- Playing the rosbag-->
+  <node pkg="rosbag" type="play" name="player" output="log" args="--clock $(arg rosbag_file)"/>
+  <!-- Occupancy grid mapping node-->
+  <node name="my_occ_grid_map_efficient" pkg="occupancy_grid_mapping" type="my_occ_grid_map_efficient.py" output="screen"/>
+
+
+  <!-- Rviz visualization<!-->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find occupancy_grid_mapping)/rviz/ocg.rviz"/>
+
+  
+</launch>
