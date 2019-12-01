@@ -10,12 +10,12 @@
   <param name="use_sim_time" value="true"/>
 
   <!-- NODES -->
-  <!-- Adding the my_map tf to the tf tree-->
+  <!-- Adding the my_map tf to the tf tree -->
   <node pkg="tf2_ros" type="static_transform_publisher" name="my_map_to_map" args="0 0 0 0 0 0 1 /my_map /map "/>
   <!-- Playing the rosbag -->
   <node pkg="rosbag" type="play" name="player" output="log" args="--clock $(arg rosbag_file_1)"/>
   <!-- Occupancy grid mapping node -->
-  <node name="my_occ_grid_map" pkg="occupancy_grid_mapping" type="cythonized_occ_grid_map.py" output="screen"/>
+  <node name="my_occ_grid_map_cell_by_cell" pkg="occupancy_grid_mapping" type="cythonized_occ_grid_map_cell_by_cell.py" output="screen"/>
 
   <!-- Rviz visualization -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find occupancy_grid_mapping)/rviz/ocg.rviz"/>
